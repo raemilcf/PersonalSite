@@ -2,16 +2,11 @@
 
 import { Project } from "@/types/Projects";
 import { createClient, groq } from "next-sanity";
+import cilentConfig from "./config/client-config";
 
-const getProjects = async (): Promise<Project[]> => {
+export  async function getProjects  (): Promise<Project[]>  {
 
-    const client = createClient({
-        projectId:"rzjws4dp",
-        dataset: "production",
-        apiVersion: "2023-06-17",
-    });
-
-    return client.fetch(
+    return createClient(cilentConfig).fetch(
         groq`*[_type == 'project']{
             _id,
             _createdAt,
@@ -23,6 +18,22 @@ const getProjects = async (): Promise<Project[]> => {
 
         }`
     )
-}
+};
+export  async function  getProject ( slug: string ) : Promise<Project>  {
+    
+    return createClient(cilentConfig).fetch(
+        groq`*[_type == 'project' && slug.current == $slug][0]{
+            _id,
+            _createdAt,
+            name,
+            'slug': slug.current,
+            'image': image.asset -> url,
+            url,        
+            content
 
-export default getProjects;
+        }`,
+        {slug}
+    )
+
+};
+

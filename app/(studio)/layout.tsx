@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import './globals.css'
+import '../globals.css'
+
 
 export const metadata = {
   title: 'Pesonal Blog',
@@ -13,8 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body >
-       {children}
+      <body> {children}
         
        </body>
     </html>
